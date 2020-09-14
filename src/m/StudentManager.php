@@ -51,12 +51,13 @@ class StudentManager
 
     public function edit($student)
     {
-        $sql = "UPDATE `students` SET `name`=:name,`class`=:class,`address`=:address WHERE id = :id";
+        $sql = "UPDATE `students` SET `name`=:name,`class`=:class,`address`=:address,`image`=:image WHERE id = :id";
         $stmt = $this->database->connect()->prepare($sql);
         $stmt->bindParam(":id",$student->getId());
         $stmt->bindParam(":name",$student->getName());
         $stmt->bindParam(":class",$student->getClass());
         $stmt->bindParam(":address",$student->getAddress());
+        $stmt->bindParam(":image",$student->getImage());
         $stmt->execute();
     }
 

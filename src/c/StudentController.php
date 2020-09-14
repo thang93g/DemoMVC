@@ -48,12 +48,23 @@ class StudentController
             include_once "src/v/edit.php";
         } else {
             $id = $_REQUEST['id'];
+            $student = $this->sm->getStudentById($id);
+            $image = $student['image'];
             $name = $_REQUEST['name'];
             $class = $_REQUEST['class'];
             $address = $_REQUEST['address'];
-            $student = new Student($name,$class,$address);
-            $student->setId($id);
-            $this->sm->edit($student);
+            $file = $_FILES['image']['tmp_name'];
+            $path = "uploads/".$_FILES['image']['name'];
+            if (move_uploaded_file($file,$path)){
+                echo "success";
+            } else {
+                echo "fail";
+            }
+            $img = $path == "uploads/"?$image:$path;
+            $std = new Student($name,$class,$address);
+            $std->setId($id);
+            $std->setImage($img);
+            $this->sm->edit($std);
             header("location:index.php");
         }
     }
